@@ -9,12 +9,14 @@
       name="手机号"
       placeholder="请输入手机号"
       left-icon="phone-circle-o"
+      :rules="userFormRules.mobile"
     />
     <van-field
       v-model="user.code"
       name="验证码"
       placeholder="请输入验证码"
       left-icon="comment-circle-o"
+      :rules="userFormRules.code"
     >
       <template #button>
         <van-button round class="send-btn" size="small" type="default">获取验证码</van-button>
@@ -36,6 +38,10 @@ export default {
       user: {
         mobile: '',
         code: ''
+      },
+      userFormRules: {
+        mobile: [{ required: true, message: '手机号不能为空' }, { pattern: /^\d{11}$/, message: '格式错误' }],
+        code: [{ required: true, message: '验证码不能为空' }, { pattern: /^\d{6}$/, message: '格式错误' }]
       }
     }
   },
@@ -45,13 +51,22 @@ export default {
       const user = this.user
 
       // 2.表单验证
+      this.$toast.loading({
+        message: '加载中...',
+        forbidClick: true
+      })
 
       // 3.提交表单请求登录
       try {
         const res = await login(user)
-        console.log('success!', res)
+        console.log('success', res)
+        this.$toast.success('登录成功')
       } catch (err) {
-        console.log('fail!', err)
+        if (err.response.status === 404) {
+          this.$toast.fail('手机号或验证码错误')
+        } else {
+          this.$toast.fail('登录失败')
+        }
       }
       // 4.根据请求响应结果处理后续操作
     }
