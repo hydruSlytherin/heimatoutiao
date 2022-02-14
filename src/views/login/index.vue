@@ -1,7 +1,12 @@
 <template>
   <div class="login-container">
     <!-- 导航栏 -->
-    <van-nav-bar class="page-nav-bar" title="登录"/>
+    <van-nav-bar
+      class="page-nav-bar"
+      left-arrow
+      @click-left="onClickLeft"
+      title="登录"
+    />
     <!-- 登录表单 -->
     <van-form @submit="onSubmit">
     <van-field
@@ -70,6 +75,9 @@ export default {
         }
       }
       // 4.根据请求响应结果处理后续操作
+    },
+    async onClickLeft () {
+      this.$router.back()// 返回上一个页面
     }
   }
 }
