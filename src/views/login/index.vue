@@ -58,8 +58,9 @@ export default {
 
       // 3.提交表单请求登录
       try {
-        const res = await login(user)
-        console.log('success', res)
+        const { data } = await login(user)
+        this.$store.commit('setUser', data.data)
+        // console.log('success', res)
         this.$toast.success('登录成功')
       } catch (err) {
         if (err.response.status === 404) {
