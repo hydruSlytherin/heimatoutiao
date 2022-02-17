@@ -9,3 +9,17 @@ export const login = data => {
     data
   })
 }
+// 获取用户个人资料
+export const getUserInfo = () => {
+  return request({
+    method: 'GET',
+    url: '/v1_0/user/profile'
+  })
+}
+// 获取频道列表
+export const getUserChannels = () => {
+  return request({
+    method: 'GET',
+    url: '/v1_0/channels'
+  })
+}
